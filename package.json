@@ -1,0 +1,16 @@
+{
+  "name": "inclusion-bot",
+  "version": "1.0.0",
+  "description": "The Inclusion Bot passively listens for language with racist, ableist, sexist, or other exclusionary histories. When it hears such words or phrases, it quietly lets the speaker know and offers some suggestions — helping nudge us all to thoughtful, inclusive language.",
+  "repository": "https://github.com/dctech/inclusion-bot",
+  "author": "Andrew Dunkman <adunkman@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node bot/main.ts"
+  },
+  "dependencies": {
+    "@types/node": "^16.7.4",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2"
+  }
+}
