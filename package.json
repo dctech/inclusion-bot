@@ -5,6 +5,10 @@
   "repository": "https://github.com/dctech/inclusion-bot",
   "author": "Andrew Dunkman <adunkman@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": "16.x",
+    "yarn": "1.x"
+  },
   "scripts": {
     "start": "ts-node bot/main.ts"
   },
