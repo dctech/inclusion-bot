@@ -1,0 +1,434 @@
+message: >
+  Hello! Our inclusive culture is built one interaction at a time, and
+  inclusive language is the foundation. This bot helps us practice our
+  inclusive values here in Slack.
+
+link: https://github.com/dctech/inclusion-bot#readme
+
+triggers:
+  - matches:
+      - blind to
+      - blinded to
+      - blinded by
+      - deaf to
+    alternatives:
+      - unaware of
+      - ignoring
+      - not paying attention to
+    why: >
+      ":TERM:" refers to inattention or ignorance. Blind, Deaf, and other
+      visually or hearing-impaired people are not inattentive or ignorant.
+      Phrases like this create a negative connotation with blindness and
+      deafness.
+
+  - matches:
+      - blind leading the blind
+    alternatives:
+      - winging it
+      - feeling around in the dark
+      - building the airplane while we fly it
+      - finding our way together
+    why: >
+      ":TERM:" refers to ignorance. Blind and other visually impaired people
+      are not ignorant. Using phrases like this create a negative connotation
+      with blindness.
+
+  - matches:
+      - crazy
+      - insane
+      - nuts
+    ignore:
+      - grape nuts
+      - nuts and bolts
+    alternatives:
+      - hard to believe
+      - bananas
+      - wild
+      - asinine
+      - ludicrous
+      - outrageous
+      - unbelievable
+      - irrational
+      - ridiculous
+    why: >
+      ":TERM:" arose as a derogatory reference to people with mental
+      illnesses. We want to avoid stigmatizing mental illness.
+
+  - matches:
+      - psycho
+      - schizo
+      - lunatic
+      - psychopath
+      - psychotic
+      - bipolar
+      - manic
+      - maniac
+    ignore:
+      - manic monday
+      - bipolar disorder
+    alternatives:
+      - difficult
+      - unpredictable
+      - chaotic
+      - overwhelming
+      - asinine
+      - unbelievable
+    why: >
+      ":TERM:" arose as a derogatory reference to people with mental
+      illnesses. We want to avoid stigmatizing mental illness.
+
+  - matches:
+      - spaz
+      - spastic
+      - crackhead
+    alternatives:
+      - volatile
+      - unpredictable
+    why: >
+      ":TERM:" arose as a derogatory reference to people with motor control
+      impairments due to illness or substance use.  We want to avoid
+      stigmatizing mental illness and addiction.
+
+  - matches:
+      - derp
+    alternatives:
+      - oops
+    why: >
+      ":TERM:" term arose as a derogatory reference to people with
+      intellectual disabilities. It was popularized on the TV show South Park
+      to mock a character. We want to avoid stigmatizing disabilities.
+
+  - matches:
+      - moron
+      - imbecile
+      - daft
+      - dumb
+      - feeble-minded
+      - idiot
+      - idiotic
+      - stupid
+      - cretin
+    ignore:
+      - daft punk
+    alternatives:
+      - foolish
+      - ignorant
+      - poorly-planned
+      - careless
+      - thoughtless
+      - pointless
+    why: >
+      ":TERM:" arose as a derogatory reference to people with intellectual
+      disabilities. We want to avoid stigmatizing disabilities.
+
+  - matches:
+      - lame
+    ignore:
+      - lame duck # because that's what Congress is called every
+                  # two years in November and December
+    alternatives:
+      - cruddy
+      - pathetic
+      - bad
+      - disappointing
+    why: >
+      ":TERM:" arose as a derogatory reference to people with disabilities.
+      We want to avoid stigmatizing intellectual disabilities.
+
+  - matches:
+      - junkie
+      - addict
+    alternatives:
+      - enthusiast
+      - fan
+    why: >
+      ":TERM:" refers to someone who has a substance abuse disorder.
+      Addiction is a disease, not a choice or moral failing. We want to avoid
+      stigmatizing illness and addiction.
+
+  - matches:
+      - like crack
+    alternatives:
+      - irresistible
+    why: >
+      ":TERM:" refers to something tempting. Addiction is a disease, not a
+      choice or moral failing. We want to avoid stigmatizing addiction. Crack
+      cocaine usage has also been racialized, resulting in discriminatory
+      policies that target Black people.
+
+  - matches:
+      - guys
+      - guyz
+    ignore:
+      - boba guys
+      - five guys
+      - 5 guys
+      - halal guys
+      - guys bot # not sure how to account for "guys" in quotes without a regex...
+        # /(?<!boba )(?<!five )(?<!5 )(?<!halal )guy(s|z)(?=[^"“”']*(["“”'][^"“”']*["“”'][^"“”']*)*$)/i,
+    alternatives:
+      - y'all
+    why: >
+      "*:TERM:*" is commonly used to refer to groups of people, but it is a
+      gendered pronoun. It can make people who do not identify as "guys" feel
+      excluded, even if that's not the intent. Regardless of cultural background
+      or innocent intent, we recommend alternative language that makes it clear
+      everyone is included in the conversation! Consider a word like "*y'all*"
+      or "*folks*" instead!
+
+  - matches:
+      - ghetto
+    alternatives:
+      - haphazard
+      - distressed
+      - derelict
+      - slapdash
+    why: >
+      ":TERM:" is used to describe neighborhoods that the speaker considers
+      undesirable. This term has a deeply racist history against Jewish and
+      Black communities.
+
+  - matches:
+      - uppity
+    alternatives:
+      - outspoken
+      - ambitious
+      - highfalutin
+      - vocal
+      - assertive
+    why: >
+      ":TERM:" is usually used to silence Black people and imply that they do
+      not have a right to be assertive.
+
+  - matches:
+      - peanut gallery
+    alternatives:
+      - teeming masses
+      - onlookers
+    why: >
+      ":TERM:" refers to people who are seen as rowdy or disruptive,
+      indicating that their viewpoints should be ignored. This term arose from
+      theater performance seating, and has racist and classist origins.
+
+  - matches:
+      - gypsy
+      - gypsies
+    alternatives:
+      - a member of the Romani people
+      - a nomad
+    why: >
+      The term "gypsy" has historically been used as a racial slur against the
+      Romani people.
+
+  - matches:
+      - gyp
+      - gypped
+    ignore:
+      - node gyp # Node.js build tool; shows up in error logs fairly often
+      - node-gyp
+    alternatives:
+      - swindled
+      - cheated
+    why: >
+      ":TERM:" is an abbreviated form of “gypsy” (a term that has historically
+      been used as a racist slur for Romani people), and is based on a racist
+      stereotype that Romani people are dishonest or thieves.
+
+  - matches:
+      - no can do
+    alternatives:
+      - sorry, I can't
+    why: >
+      ":TERM:" phrase originated as mocking Chinese immigrants’ English.
+
+  - matches:
+      - long time no see
+    alternatives:
+      - it's been a while
+    why: >
+      ":TERM:" phrase originated as mocking Chinese immigrants’ English.
+
+  - matches:
+      - sherpa
+    alternatives:
+      - guide
+      - shepherd
+      - coach
+    why: >
+      The Sherpa are a Tibetan ethnic group, but the word is often used to refer
+      to mountain guides. Sherpa are a people, not a job.
+
+  - matches:
+      - pow-wow
+      - powwow
+      - pow wow
+    alternatives:
+      - meeting
+      - working session
+      - huddle
+      - jam session
+    why: >
+      Powwows are a sacred component of some Indigneous spiritual traditions. We
+      want to show respect towards all religious traditions.
+
+  - matches:
+      - circle the wagons
+    alternatives:
+      - hunker down
+    why: >
+      ":TERM:" arose from colonization, and interactions between Native
+      Americans and settlers. We want to avoid this association.
+
+  - matches:
+      - hold down the fort
+    alternatives:
+      - keep things afloat
+      - keen an eye on things
+    why: >
+      ":TERM:" arose as a military phrase and is also viewed as a metaphor
+      for colonization and violence against Native Americans. We want to avoid
+      this association.
+
+  - matches:
+      - spirit animal
+    alternatives:
+      - role model
+      - kindred spirit
+      - inspiration
+      - secret twin
+      - when I grow up, I want to be...
+    why: >
+      Spirit animals are a sacred component of some Indigneous spiritual
+      traditions. We want to show respect towards all religious traditions.
+
+  - matches:
+      - totem pole
+    alternatives:
+      - level of seniority
+    why: >
+      Totem poles are a sacred component of some Indigneous spiritual
+      traditions. We want to show respect towards all religious traditions.
+
+  - matches:
+      - guru
+    alternatives:
+      - authority
+      - maestro
+      - virtuoso
+    why: >
+      A guru is a sacred role in some Indian spiritual traditions and is not
+      merely an expert or guide. We want to show respect towards all religious
+      traditions.
+
+  - matches:
+      - ninja
+    alternatives:
+      - expert
+      - whiz
+    why: >
+      A ninja was a covert mercenary in feudal Japan. We want to show respect
+      towards cultural traditions.
+
+  - matches:
+      - blacklist
+      - black list
+      - blacklisted
+      - black listed
+    alternatives:
+      - blocked list
+      - deny list
+      - exclude list
+      - reject list
+    why: >
+      ":TERM:" implies an association between being Black and being bad. We
+      want to avoid this association.
+
+  - matches:
+      - whitelist
+      - white list
+      - whitelisted
+      - white listed
+    alternatives:
+      - unblocked list
+      - allow list
+      - permit list
+    why: >
+      ":TERM:" implies that being white is the only way of being good. We
+      want to avoid this association.
+
+  - matches:
+      - dark pattern
+    alternatives:
+      - antipattern
+      - anti-UX pattern
+      - deceptive design pattern
+    why: >
+      ":TERM:" implies an association between darkness and Blackness and
+      being bad. We want to avoid this association.
+
+  - matches:
+      - master/slave
+      - master / slave
+    alternatives:
+      - primary/secondary
+      - primary/replica
+      - leader/worker
+      - main/replica
+    why: >
+      ":TERM:" is rooted in the enslavement of human beings. We want to avoid
+      slavery references.
+
+  - matches:
+      - open the kimono
+      - open kimono
+    alternatives:
+      - share information
+    why: >
+      ":TERM:" arises from the sexualization of Asian women. We want to avoid
+      sexist, racist, and sexual references.
+
+  - matches:
+      - grandfathered
+    alternatives:
+      - legacy
+      - included retroactively
+    why: >
+      ":TERM:" arose from voter restrictions that prevented Black people from
+      voting. We want to avoid slavery and racist oppression references.
+
+  - matches:
+      - hysterical
+    alternatives:
+      - hilarious
+      - very funny
+    why: >
+      Hysteria was a historical medical term used to dismiss and demean women.
+      We want to avoid sexist references.
+
+  - matches:
+      - hysterically
+    alternatives:
+      - uncontrollably
+      - wildly
+    why: >
+      Hysteria was a historical medical term used to dismiss and demean women.
+      We want to avoid sexist references.
+
+  - matches:
+      - postmortem
+    alternatives:
+      - project reflection
+      - project or incident review
+      - retrospective
+      - retro
+    why: >
+      ":TERM:" can trigger emotions related to death that employees may not
+      want to process at work.
+
+  - matches:
+      - drop-dead date
+    alternatives:
+      - last possible date
+    why: >
+      ":TERM:" can trigger emotions related to death that employees may not
+      want to process at work

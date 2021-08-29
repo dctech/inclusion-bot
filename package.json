@@ -10,16 +10,20 @@
     "yarn": "1.x"
   },
   "scripts": {
-    "start": "ts-node bot/main.ts",
+    "start": "ts-node bot/app.ts",
     "test": "jest"
   },
   "dependencies": {
     "@slack/bolt": "^3.6.0",
+    "@types/js-yaml": "^4.0.3",
     "@types/node": "^16.7.4",
+    "js-yaml": "^4.1.0",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.2"
   },
   "devDependencies": {
-    "jest": "^27.1.0"
+    "@types/jest": "^27.0.1",
+    "jest": "^27.1.0",
+    "ts-jest": "^27.0.5"
   }
 }
