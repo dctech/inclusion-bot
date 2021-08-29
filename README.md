@@ -1,0 +1,15 @@
+# Inclusion Bot
+
+The Inclusion Bot is a Slack App which passively listens for language with racist, ableist, sexist, or other exclusionary histories. When it hears such words or phrases, it quietly lets the speaker know and offers some suggestions — helping nudge us all to thoughtful, inclusive language.
+
+Many thanks to [18F’s Charlie](https://github.com/18F/charlie), from which this bot was extracted and adapted.
+
+## Development
+
+This is a TypeScript application run locally with Docker.
+
+You may also find it useful to install node.js locally (see [package.json’s engines property](./package.json) for the current version) and install dependencies with `yarn install` — this will enable intelligent TypeScript code suggestions in your editor of choice.
+
+## Deployment
+
+This application is deployed automatically with [Heroku pipelines](https://devcenter.heroku.com/articles/pipelines) — the `main` branch is automatically deployed to a bot in the [Inclusion Bot Test Slack](https://inclusion-bot.slack.com/).
