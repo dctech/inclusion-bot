@@ -1,6 +1,5 @@
 import { App, LogLevel } from "@slack/bolt";
 import { handleMessage } from "./actions/message";
-import { handleWhyDialog, WHY_MODAL_ACTION } from "./actions/whyDialog";
 import { config } from "./triggers/triggers";
 
 const {
@@ -24,5 +23,4 @@ const app = new App({
   );
 
   app.message(combinedTriggers, handleMessage);
-  app.action(WHY_MODAL_ACTION, handleWhyDialog);
 })();

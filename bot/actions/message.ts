@@ -1,6 +1,5 @@
-import { AllMiddlewareArgs, GenericMessageEvent, Middleware, SlackEventMiddlewareArgs } from "@slack/bolt";
+import { AllMiddlewareArgs, GenericMessageEvent, SlackEventMiddlewareArgs } from "@slack/bolt";
 import { config } from "../triggers/triggers"
-import { WHY_MODAL_ACTION } from "./whyDialog";
 
 export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> & AllMiddlewareArgs) {
   const message = event.message as GenericMessageEvent;
@@ -29,7 +28,7 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
   const pretexts = matches.map(({ trigger, text }) => {
     const random = Math.floor(Math.random() * trigger.alternatives.length);
     const alternative = trigger.alternatives[random];
-    return `• Instead of saying “${text},” how about *${alternative}*?`;
+    return `Instead of saying “${text},” how about *${alternative}*? ${trigger.why || ''}`;
   });
 
   event.client.chat.postEphemeral({
@@ -43,22 +42,10 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
     attachments: [
       {
         color: "#ffbe2e",
-        blocks: pretexts.map((text, i) => {
-          const block = {
-            type: "section",
-            text: { type: "mrkdwn", text },
-          } as any;
-
-          if (i === 0) {
-            block.accessory = {
-              type: "button",
-              text: { type: "plain_text", text: "Why?" },
-              value: matches.map(({ text: t }) => t).join("|"),
-              action_id: WHY_MODAL_ACTION,
-            };
-          }
-          return block;
-        }),
+        blocks: pretexts.map((text, i) => ({
+          type: "section",
+          text: { type: "mrkdwn", text },
+        })),
         fallback: "fallback",
       },
       {

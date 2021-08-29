@@ -1,9 +1,8 @@
 message: >
-  Hello! Our inclusive culture is built one interaction at a time, and
-  inclusive language is the foundation. This bot helps us practice our
-  inclusive values here in Slack.
-
-link: https://github.com/dctech/inclusion-bot#readme
+  Our inclusive culture is built one interaction at a time, and inclusive
+  language is the foundation. This bot helps us practice our inclusive values
+  here in Slack. <https://github.com/dctech/inclusion-bot#readme|Read more>
+  about this bot or file an issue if you spot something amiss.
 
 triggers:
   - matches:

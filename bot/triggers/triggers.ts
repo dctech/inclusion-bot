@@ -13,12 +13,6 @@ type TriggerConfig<TriggerType = RawTrigger | Trigger> = {
   message: string;
 
   /**
-   * Where person who triggered the bot can read more about the bot
-   * and the motivations behind it.
-   */
-  link: string;
-
-  /**
    * The list of phrases that will cause the bot to respond, what it should
    * ignore, and alternative words or phrases to suggest. Optionally, there is
    * a place to explain more about why the phrase triggered the bot's response.

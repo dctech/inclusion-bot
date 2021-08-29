@@ -4,8 +4,7 @@ describe("Configuration file", () => {
   const yml = rawConfig;
 
   it("starts with a top-level triggers property", () => {
-    expect(Object.keys(yml).length).toBe(3);
-    expect(typeof yml.link).toBe("string");
+    expect(Object.keys(yml).length).toBe(2);
     expect(typeof yml.message).toBe("string");
     expect(Array.isArray(yml.triggers)).toBe(true);
   });
