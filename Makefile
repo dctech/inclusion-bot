@@ -6,15 +6,15 @@ start: ## Runs the full application stack locally
 
 .PHONY: test
 test: ## Run automated tests
-	@docker-compose run bot test
+	@docker-compose run app test
 
 .PHONY: test-watch
 test-watch: ## Run automated tests and re-run tests automatically on changed files
-	@docker-compose run bot test --watchAll
+	@docker-compose run app test --watchAll
 
-.PHONY: sh-bot
-sh-bot: ## Open a shell in the bot docker image
-	@docker-compose run --entrypoint sh bot
+.PHONY: sh-app
+sh-app: ## Open a shell in the app docker image
+	@docker-compose run --entrypoint sh app
 	@echo
 	@echo If you have just made changes to dependencies, remember to rebuild the
 	@echo docker image by running \\033[33mmake rebuild\\033[0m or the changes won’t take effect.

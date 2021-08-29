@@ -1,5 +1,5 @@
 services:
-  bot:
+  app:
     build: ./
     volumes:
       - ./:/app
