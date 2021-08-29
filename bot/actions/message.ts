@@ -1,4 +1,5 @@
 import { AllMiddlewareArgs, GenericMessageEvent, SlackEventMiddlewareArgs } from "@slack/bolt";
+import { capitalize } from "../helpers/capitalize";
 import { config } from "../triggers/triggers"
 
 export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> & AllMiddlewareArgs) {
@@ -28,7 +29,8 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
   const pretexts = matches.map(({ trigger, text }) => {
     const random = Math.floor(Math.random() * trigger.alternatives.length);
     const alternative = trigger.alternatives[random];
-    return `Instead of saying “${text},” how about *${alternative}*? ${trigger.why || ''}`;
+    const why = (trigger.why || '').replace(/:TERM:/gi, capitalize(text));
+    return `Instead of saying “${text.toLowerCase()},” how about *${alternative}*? ${why}`;
   });
 
   event.client.chat.postEphemeral({
