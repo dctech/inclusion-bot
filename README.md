@@ -6,9 +6,13 @@ Many thanks to [18F’s Charlie](https://github.com/18F/charlie), from which thi
 
 ## Development
 
-This is a TypeScript application run locally with Docker.
+This is a TypeScript application run locally with Docker. To see available tasks, run:
 
-You may also find it useful to install node.js locally (see [package.json’s engines property](./package.json) for the current version) and install dependencies with `yarn install` — this will enable intelligent TypeScript code suggestions in your editor of choice.
+```sh
+make
+```
+
+You may also find it useful to install node.js locally (see [package.json’s engines property](./package.json) for the current version) and install dependencies with `yarn install` — this will enable intelligent TypeScript code suggestions in your editor of choice. If you don’t yet have `yarn` installed, install it with `npm install yarn --global`.
 
 ## Deployment
 
