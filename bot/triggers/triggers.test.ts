@@ -4,12 +4,36 @@ describe("Configuration file", () => {
   const yml = rawConfig;
 
   it("starts with a top-level triggers property", () => {
-    expect(Object.keys(yml).length).toBe(2);
+    expect(Object.keys(yml).length).toBe(3);
     expect(typeof yml.message).toBe("string");
+    expect(Array.isArray(yml.links)).toBe(true);
     expect(Array.isArray(yml.triggers)).toBe(true);
   });
 
-  it("each item is an object, and each property of each object is a string", () => {
+  it("there are between 2 and 5 links, as required by the Slack API", () => {
+    expect(yml.links.length).toBeGreaterThanOrEqual(2);
+    expect(yml.links.length).toBeLessThanOrEqual(5);
+  });
+
+  it("each link is an object, and its expected properties are strings", () => {
+    const { links } = yml;
+
+    links.forEach((link) => {
+      expect(typeof link).toBe("object");
+
+      const keys = Object.keys(link);
+      const validKeys = ["text", "url"];
+      const invalidKeys = keys.filter((key) => !validKeys.includes(key));
+
+      expect(keys).toEqual(validKeys);
+      expect(invalidKeys).toHaveLength(0);
+
+      expect(typeof link.text).toBe("string");
+      expect(typeof link.url).toBe("string");
+    });
+  });
+
+  it("each trigger is an object, and each property of each object is a string", () => {
     const { triggers } = yml;
 
     triggers.forEach((trigger) => {

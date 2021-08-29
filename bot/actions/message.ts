@@ -1,10 +1,12 @@
 import { AllMiddlewareArgs, GenericMessageEvent, SlackEventMiddlewareArgs } from "@slack/bolt";
+import { WebAPICallResult } from "@slack/web-api";
 import { capitalize } from "../helpers/capitalize";
 import { config } from "../triggers/triggers"
 
 export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> & AllMiddlewareArgs) {
   const message = event.message as GenericMessageEvent;
   const { text } = message;
+  const actions: Promise<WebAPICallResult>[] = [];
 
   const matches = config.triggers.map((trigger) => ({
     trigger,
@@ -19,11 +21,11 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
     return;
   }
 
-  event.client.reactions.add({
+  actions.push(event.client.reactions.add({
     name: "eyes",
     channel: message.channel,
     timestamp: message.ts,
-  });
+  }));
 
   // Pick a random alternative for each trigger word
   const pretexts = matches.map(({ trigger, text }) => {
@@ -33,7 +35,7 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
     return `Instead of saying “${text.toLowerCase()},” how about *${alternative}*? ${why}`;
   });
 
-  event.client.chat.postEphemeral({
+  actions.push(event.client.chat.postEphemeral({
     user: message.user,
     channel: message.channel,
     thread_ts: message.thread_ts,
@@ -48,13 +50,35 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
           type: "section",
           text: { type: "mrkdwn", text },
         })),
-        fallback: "fallback",
+        fallback: text,
       },
       {
         color: "#2eb886",
-        text: config.message,
+        blocks: [
+          {
+            type: "section",
+            text: { type: "mrkdwn", text: config.message },
+            accessory: {
+              type: "overflow",
+              options: config.links.map((link) => ({
+                text: {
+                  type: "plain_text",
+                  text: link.text
+                },
+                url: link.url
+              }))
+            }
+          }
+        ],
         fallback: config.message,
       },
     ],
-  });
+  }));
+
+  try {
+    await Promise.all(actions);
+  }
+  catch (error) {
+    event.logger.error(error);
+  }
 }

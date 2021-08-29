@@ -13,12 +13,34 @@ type TriggerConfig<TriggerType = RawTrigger | Trigger> = {
   message: string;
 
   /**
+   * Describes between 2 and 5 links which are attached to an overflow menu
+   * next to the message displayed after the list of triggering phrases.
+   */
+  links: OverflowLink[];
+
+  /**
    * The list of phrases that will cause the bot to respond, what it should
    * ignore, and alternative words or phrases to suggest. Optionally, there is
    * a place to explain more about why the phrase triggered the bot's response.
    */
   triggers: TriggerType[];
 };
+
+/**
+ * Represents a link which is attached to an overflow menu next to the message
+ * displayed after the list of triggering phrases.
+ */
+type OverflowLink = {
+  /**
+   * Plain text to show in the menu.
+   */
+  text: string;
+
+  /**
+   * URL to navigate the user to upon selecting the menu item.
+   */
+  url: string;
+}
 
 /**
  * Represents a phrase which will cause the bot to respond, what it should
