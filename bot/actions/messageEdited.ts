@@ -13,7 +13,7 @@ export async function handleMessageEdited(event: SlackEventMiddlewareArgs<'messa
     event.client.auth.test(),
     event.client.reactions.get({
       channel: messageChanged.channel,
-      timestamp: messageChanged.message.ts,
+      timestamp: message.ts,
       full: true,
     }),
   ])
@@ -43,9 +43,15 @@ export async function handleMessageEdited(event: SlackEventMiddlewareArgs<'messa
     // The user has adjusted their language and it no longer matches our
     // triggers.
 
+    console.log({
+      name: config.emoji,
+      channel: messageChanged.channel,
+      timestamp: message.ts,
+    })
+
     await event.client.reactions.remove({
       name: config.emoji,
-      channel: message.channel,
+      channel: messageChanged.channel,
       timestamp: message.ts,
     });
   }
