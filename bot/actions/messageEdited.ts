@@ -8,14 +8,13 @@ import { config } from "../triggers/triggers";
 export async function handleMessageEdited(event: SlackEventMiddlewareArgs<'message'> & AllMiddlewareArgs) {
   const message = event.message as MessageChangedEvent;
 
-  const auth = await event.client.auth.test();
-
-  console.log(auth);
-
-  const response = await event.client.reactions.get({
-    channel: message.channel,
-    timestamp: message.ts,
-  });
+  const [ auth, response ] = await Promise.all([
+    event.client.auth.test(),
+    event.client.reactions.get({
+      channel: message.channel,
+      timestamp: message.ts,
+    }),
+  ])
 
   if (!response.message?.reactions?.length) {
     // This edited message has no reactions, so it can’t be one we’re looking at
@@ -28,5 +27,14 @@ export async function handleMessageEdited(event: SlackEventMiddlewareArgs<'messa
 
   console.log(reaction);
 
-  //const ourReaction = reaction.users.find(user => user === )
+  const ourReaction = reaction.users.find(user => user === auth.user_id);
+
+  console.log(ourReaction);
+
+  if (!ourReaction) {
+    // We haven’t triggered on this message in the past.
+    return;
+  }
+
+  console.log('continue');
 }
