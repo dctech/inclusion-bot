@@ -1,5 +1,4 @@
 import { AllMiddlewareArgs, BlockAction, ButtonAction, SlackActionMiddlewareArgs } from "@slack/bolt";
-import { WebAPICallResult } from "@slack/web-api";
 
 export const CLOSE_MESSAGE_ACTION_ID = "close_ephemeral_message";
 
