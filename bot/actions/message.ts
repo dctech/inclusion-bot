@@ -2,6 +2,7 @@ import { AllMiddlewareArgs, GenericMessageEvent, SlackEventMiddlewareArgs } from
 import { WebAPICallResult } from "@slack/web-api";
 import { capitalize } from "../helpers/capitalize";
 import { config } from "../triggers/triggers"
+import { CLOSE_MESSAGE_ACTION_ID } from "./closeMessage";
 import { OVERFLOW_MENU_CLICK_ACTION_ID } from "./menuClick";
 
 export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> & AllMiddlewareArgs) {
@@ -70,6 +71,20 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
               })),
               action_id: OVERFLOW_MENU_CLICK_ACTION_ID,
             }
+          },
+          {
+            type: "actions",
+            elements: [
+              {
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  text: "Close this message"
+                },
+                action_id: CLOSE_MESSAGE_ACTION_ID,
+                style: "primary"
+              }
+            ]
           }
         ],
         fallback: config.message,

@@ -1,4 +1,5 @@
 import { App, LogLevel, subtype } from "@slack/bolt";
+import { CLOSE_MESSAGE_ACTION_ID, handleMessageClose } from "./actions/closeMessage";
 import { handleMenuClick, OVERFLOW_MENU_CLICK_ACTION_ID } from "./actions/menuClick";
 import { handleMessage } from "./actions/message";
 import { handleMessageEdited } from "./actions/messageEdited";
@@ -22,4 +23,5 @@ const app = new App({
   app.message(config.allTriggersRegExp, handleMessage);
   app.message(subtype("message_changed"), handleMessageEdited);
   app.action(OVERFLOW_MENU_CLICK_ACTION_ID, handleMenuClick);
+  app.action(CLOSE_MESSAGE_ACTION_ID, handleMessageClose);
 })();
