@@ -31,6 +31,11 @@ type TriggerConfig<TriggerType = RawTrigger | Trigger> = {
    * a place to explain more about why the phrase triggered the bot's response.
    */
   triggers: TriggerType[];
+
+  /**
+   * A regular expression representing all triggers.
+   */
+  allTriggersRegExp: RegExp;
 };
 
 /**
@@ -114,21 +119,27 @@ const yamlString = readFileSync(path, "utf-8");
  */
 export const rawConfig = load(yamlString, { json: true }) as TriggerConfig<RawTrigger>;
 
+const mappedTriggers = rawConfig.triggers.map(({ ignore, matches, ...rest }) => ({
+  ignore: ignore && RegExp(`\\b(${ignore.join("|")})\\b`, "i"),
+  matches: RegExp(
+    // The backend of this regex (starting at "(?=") is using a positive
+    // lookahead to un-match things that are inside quotes (regular double
+    // quotes, single quote, or smart quotes). You can play around with the
+    // regex here: https://regexr.com/61eiq
+    `\\b(${matches.join("|")})(?=[^"“”']*(["“”'][^"“”']*["“”'][^"“”']*)*$)\\b`,
+    "i"
+  ),
+  ...rest
+}));
+
 /**
  * Configuration object after parsing matchers into regular expressions.
  */
 export const config = {
   ...rawConfig,
-  triggers: rawConfig.triggers.map(({ ignore, matches, ...rest }) => ({
-    ignore: ignore && RegExp(`\\b(${ignore.join("|")})\\b`, "i"),
-    matches: RegExp(
-      // The backend of this regex (starting at "(?=") is using a positive
-      // lookahead to un-match things that are inside quotes (regular double
-      // quotes, single quote, or smart quotes). You can play around with the
-      // regex here: https://regexr.com/61eiq
-      `\\b(${matches.join("|")})(?=[^"“”']*(["“”'][^"“”']*["“”'][^"“”']*)*$)\\b`,
-      "i"
-    ),
-    ...rest
-  }))
+  triggers: mappedTriggers,
+  allTriggersRegExp: new RegExp(
+    mappedTriggers.map(trigger => trigger.matches.source).join("|"),
+    "i"
+  )
 } as TriggerConfig<Trigger>;

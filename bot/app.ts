@@ -19,12 +19,7 @@ const app = new App({
 (async () => {
   await app.start(+PORT);
 
-  const combinedTriggers = new RegExp(
-    config.triggers.map(trigger => trigger.matches.source).join("|"),
-    "i"
-  );
-
-  app.message(combinedTriggers, handleMessage);
+  app.message(config.allTriggersRegExp, handleMessage);
   app.message(subtype("message_changed"), handleMessageEdited);
   app.action(OVERFLOW_MENU_CLICK_ACTION_ID, handleMenuClick);
 })();

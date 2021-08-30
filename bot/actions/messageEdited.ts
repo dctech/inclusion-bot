@@ -1,4 +1,4 @@
-import { AllMiddlewareArgs, MessageChangedEvent, SlackEventMiddlewareArgs } from "@slack/bolt";
+import { AllMiddlewareArgs, GenericMessageEvent, MessageChangedEvent, SlackEventMiddlewareArgs } from "@slack/bolt";
 import { config } from "../triggers/triggers";
 
 /**
@@ -6,13 +6,14 @@ import { config } from "../triggers/triggers";
  * causes the trigger.
  */
 export async function handleMessageEdited(event: SlackEventMiddlewareArgs<'message'> & AllMiddlewareArgs) {
-  const message = event.message as MessageChangedEvent;
+  const messageChanged = event.message as MessageChangedEvent;
+  const message = messageChanged.message as GenericMessageEvent;
 
   const [ auth, response ] = await Promise.all([
     event.client.auth.test(),
     event.client.reactions.get({
-      channel: message.channel,
-      timestamp: message.previous_message.ts,
+      channel: messageChanged.channel,
+      timestamp: messageChanged.message.ts,
       full: true,
     }),
   ])
@@ -26,16 +27,26 @@ export async function handleMessageEdited(event: SlackEventMiddlewareArgs<'messa
     return reaction.name === config.emoji;
   });
 
-  console.log(reaction);
+  if (!reaction) {
+    // This message does not have any reactions of the same type as ours.
+    return;
+  }
 
   const ourReaction = reaction.users.find(user => user === auth.user_id);
-
-  console.log(ourReaction);
 
   if (!ourReaction) {
     // We haven’t triggered on this message in the past.
     return;
   }
 
-  console.log('continue');
+  if (!message.text.match(config.allTriggersRegExp)) {
+    // The user has adjusted their language and it no longer matches our
+    // triggers.
+
+    await event.client.reactions.remove({
+      name: config.emoji,
+      channel: message.channel,
+      timestamp: message.ts,
+    });
+  }
 }
