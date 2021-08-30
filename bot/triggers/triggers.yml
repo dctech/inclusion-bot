@@ -173,6 +173,7 @@ triggers:
       - guys bot
     alternatives:
       - y’all
+      - folks
     why: >
       “:TERM:” is commonly used to refer to groups of people, but it is a
       gendered pronoun. Regardless of cultural background or innocent intent,
