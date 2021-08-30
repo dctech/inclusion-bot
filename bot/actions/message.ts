@@ -23,7 +23,7 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
   }
 
   actions.push(event.client.reactions.add({
-    name: "eyes",
+    name: config.emoji,
     channel: message.channel,
     timestamp: message.ts,
   }));

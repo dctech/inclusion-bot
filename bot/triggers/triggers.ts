@@ -7,6 +7,13 @@ import { load } from "js-yaml";
  */
 type TriggerConfig<TriggerType = RawTrigger | Trigger> = {
   /**
+   * The emoji that Inclusion Bot will react to the triggered message with. This
+   * lets folks who may be offended by the content of the message know that
+   * they do not have to speak up and expend emotional energy.
+   */
+  emoji: string;
+
+  /**
    * Describes the purpose of the bot and encourages people to learn more. This
    * is displayed after the list of triggering phrases and suggested alternatives.
    */
