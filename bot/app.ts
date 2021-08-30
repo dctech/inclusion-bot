@@ -1,4 +1,4 @@
-import { App, LogLevel } from "@slack/bolt";
+import { App, LogLevel, subtype } from "@slack/bolt";
 import { handleMenuClick, OVERFLOW_MENU_CLICK_ACTION_ID } from "./actions/menuClick";
 import { handleMessage } from "./actions/message";
 import { handleMessageEdited } from "./actions/messageEdited";
@@ -25,6 +25,6 @@ const app = new App({
   );
 
   app.message(combinedTriggers, handleMessage);
+  app.message(subtype("message_changed"), handleMessageEdited);
   app.action(OVERFLOW_MENU_CLICK_ACTION_ID, handleMenuClick);
-  app.event("message_changed", handleMessageEdited);
 })();
