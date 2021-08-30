@@ -2,6 +2,7 @@ import { AllMiddlewareArgs, GenericMessageEvent, SlackEventMiddlewareArgs } from
 import { WebAPICallResult } from "@slack/web-api";
 import { capitalize } from "../helpers/capitalize";
 import { config } from "../triggers/triggers"
+import { OVERFLOW_MENU_CLICK_ACTION_ID } from "./menuClick";
 
 export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> & AllMiddlewareArgs) {
   const message = event.message as GenericMessageEvent;
@@ -65,8 +66,9 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
                   type: "plain_text",
                   text: link.text
                 },
-                url: link.url
-              }))
+                url: link.url,
+              })),
+              action_id: OVERFLOW_MENU_CLICK_ACTION_ID,
             }
           }
         ],
