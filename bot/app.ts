@@ -1,6 +1,7 @@
 import { App, LogLevel } from "@slack/bolt";
 import { handleMenuClick, OVERFLOW_MENU_CLICK_ACTION_ID } from "./actions/menuClick";
 import { handleMessage } from "./actions/message";
+import { handleMessageEdited } from "./actions/messageEdited";
 import { config } from "./triggers/triggers";
 
 const {
@@ -25,4 +26,5 @@ const app = new App({
 
   app.message(combinedTriggers, handleMessage);
   app.action(OVERFLOW_MENU_CLICK_ACTION_ID, handleMenuClick);
+  app.event("message_changed", handleMessageEdited);
 })();
