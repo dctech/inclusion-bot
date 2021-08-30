@@ -8,11 +8,14 @@ import { config } from "../triggers/triggers";
 export async function handleMessageEdited(event: SlackEventMiddlewareArgs<'message'> & AllMiddlewareArgs) {
   const message = event.message as MessageChangedEvent;
 
+  console.log(message);
+
   const [ auth, response ] = await Promise.all([
     event.client.auth.test(),
     event.client.reactions.get({
       channel: message.channel,
       timestamp: message.ts,
+      full: true,
     }),
   ])
 
