@@ -5,6 +5,8 @@ import { config } from "../triggers/triggers"
 import { OVERFLOW_MENU_CLICK_ACTION_ID } from "./menuClick";
 
 export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> & AllMiddlewareArgs) {
+  console.log(JSON.stringify(event, null, 2));
+
   const message = event.message as GenericMessageEvent;
   const { text } = message;
   const actions: Promise<WebAPICallResult>[] = [];
