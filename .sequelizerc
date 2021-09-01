@@ -1,17 +1,8 @@
 const path = require("path");
 
-const {
-  DATABASE_URL,
-  NODE_ENV,
-} = process.env;
-
 module.exports = {
-  "url": DATABASE_URL,
-  "dialect":"postgres",
-  "ssl": NODE_ENV === "production",
-  "dialectOptions": {
-    "ssl": NODE_ENV === "production"
-  },
+  "env": "all",
+  "config": path.resolve("sequelize-cli.config.js"),
   "migrations-path": path.resolve("migrations"),
   "models-path": path.resolve("bot", "models"),
 }
