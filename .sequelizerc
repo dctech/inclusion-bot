@@ -1,0 +1,7 @@
+const path = require("path");
+
+module.exports = {
+  "url": process.env.DATABASE_URL,
+  "migrations-path": path.resolve("migrations"),
+  "models-path": path.resolve("bot", "models"),
+}

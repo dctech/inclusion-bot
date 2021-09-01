@@ -4,6 +4,8 @@ services:
     volumes:
       - ./:/app
       - /app/node_modules/
+    depends_on:
+      - db
     ports:
       - "3000:3000"
     environment:
@@ -11,3 +13,16 @@ services:
       SLACK_CLIENT_ID: $SLACK_CLIENT_ID
       SLACK_CLIENT_SECRET: $SLACK_CLIENT_SECRET
       APP_STATE_SECRET: $APP_STATE_SECRET
+      DATABASE_URL: postgres://postgres:${LOCAL_POSTGRES_PASSWORD}@db:5432/postgres
+
+  adminer:
+    image: adminer:4.8.1-standalone
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+
+  db:
+    image: postgres:13.4-alpine3.14
+    environment:
+      POSTGRES_PASSWORD: $LOCAL_POSTGRES_PASSWORD

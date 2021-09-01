@@ -1,5 +1,6 @@
-import { App, ExpressReceiver, LogLevel, subtype } from "@slack/bolt";
-import { InstallProvider } from "@slack/oauth";
+import { App, ExpressReceiver, Installation as InstallationType, LogLevel, subtype } from "@slack/bolt";
+import { Sequelize } from "sequelize";
+import { InstallationFactory } from "./models/installation";
 import { CLOSE_MESSAGE_ACTION_ID, handleMessageClose } from "./actions/closeMessage";
 import { handleMenuClick, OVERFLOW_MENU_CLICK_ACTION_ID } from "./actions/menuClick";
 import { handleMessage } from "./actions/message";
@@ -8,13 +9,16 @@ import { manifest } from "./manifest/manifest";
 import { config } from "./triggers/triggers";
 
 const {
-  SLACK_TOKEN,
   SLACK_SIGNING_SECRET,
   SLACK_CLIENT_ID,
   SLACK_CLIENT_SECRET,
   APP_STATE_SECRET,
+  DATABASE_URL,
   PORT = "3000",
 } = process.env;
+
+const sequelize = new Sequelize(DATABASE_URL);
+const Installation = InstallationFactory(sequelize);
 
 const receiver = new ExpressReceiver({
   signingSecret: SLACK_SIGNING_SECRET,
@@ -23,6 +27,31 @@ const receiver = new ExpressReceiver({
   stateSecret: APP_STATE_SECRET,
   scopes: manifest.oauth_config.scopes.bot,
   logLevel: LogLevel.INFO,
+  installationStore: {
+    storeInstallation: async (installation) => {
+      await Installation.create({
+        id: installation.isEnterpriseInstall
+          ? installation.enterprise.id
+          : installation.team.id,
+        isEnterpriseInstallation: installation.isEnterpriseInstall,
+        installationObject: installation
+      });
+    },
+    fetchInstallation: async (query) => {
+      const installation = await Installation.findByPk(
+        query.isEnterpriseInstall ? query.enterpriseId : query.teamId
+      );
+
+      return installation.installationObject as InstallationType;
+    },
+    deleteInstallation: async (query) => {
+      const installation = await Installation.findByPk(
+        query.isEnterpriseInstall ? query.enterpriseId : query.teamId
+      );
+
+      await installation.destroy();
+    }
+  }
 });
 
 // Trust and use Heroku’s X-Forwarded-* headers.
@@ -31,6 +60,7 @@ receiver.app.set("trust proxy", true);
 const app = new App({ receiver });
 
 (async () => {
+  await sequelize.authenticate();
   await app.start(+PORT);
 
   app.message(config.allTriggersRegExp, handleMessage);
@@ -49,5 +79,5 @@ const app = new App({ receiver });
       scopes: manifest.oauth_config.scopes.bot,
       redirectUri: `${req.protocol}://${req.hostname}/slack/oauth_redirect`,
     }));
-  })
+  });
 })();

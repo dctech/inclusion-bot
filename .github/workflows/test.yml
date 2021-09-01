@@ -2,6 +2,9 @@ name: Test
 
 on: push
 
+env:
+  LOCAL_POSTGRES_PASSWORD: ci-password
+
 jobs:
   test:
     name: Test
