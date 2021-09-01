@@ -15,9 +15,13 @@ const {
   APP_STATE_SECRET,
   DATABASE_URL,
   PORT = "3000",
+  NODE_ENV,
 } = process.env;
 
-const sequelize = new Sequelize(DATABASE_URL);
+const sequelize = new Sequelize(DATABASE_URL, {
+  dialect: "postgres",
+  dialectOptions: { ssl: NODE_ENV === "production" }
+});
 const Installation = InstallationFactory(sequelize);
 
 const receiver = new ExpressReceiver({
