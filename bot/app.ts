@@ -20,8 +20,12 @@ const {
 
 const sequelize = new Sequelize(DATABASE_URL, {
   dialect: "postgres",
-  dialectOptions: { ssl: NODE_ENV === "production" }
+  dialectOptions: NODE_ENV === "production"
+    // Heroku does not support verifiable certificates
+    ? { ssl: { rejectUnauthorized: false } }
+    : {},
 });
+
 const Installation = InstallationFactory(sequelize);
 
 const receiver = new ExpressReceiver({
