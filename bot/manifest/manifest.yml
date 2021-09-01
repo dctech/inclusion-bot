@@ -3,13 +3,20 @@ _metadata:
   minor_version: 1
 display_information:
   name: Inclusion Bot
-  description: The Inclusion Bot passively listens for language with exclusionary histories, quietly lets the speaker know, and offers some suggestions.
+  description: The Inclusion Bot passively listens for language with exclusionary
+    histories, quietly lets the speaker know, and offers some suggestions.
   background_color: "#27272b"
+  long_description: The Inclusion Bot is a Slack bot that passively listens for
+    language with racist, ableist, sexist, or other exclusionary histories. When
+    it hears such words or phrases, it quietly lets the speaker know and offers
+    some suggestions — helping nudge us all to thoughtful, inclusive language.
 features:
   bot_user:
     display_name: Inclusion Bot
-    always_online: false
+    always_online: true
 oauth_config:
+  redirect_urls:
+    - https://inclusion-bot.dunkman.me/slack/oauth_redirect
   scopes:
     bot:
       - channels:history
@@ -27,4 +34,4 @@ settings:
     request_url: https://inclusion-bot.dunkman.me/slack/events
   org_deploy_enabled: false
   socket_mode_enabled: false
-  token_rotation_enabled: false
+  token_rotation_enabled: true
