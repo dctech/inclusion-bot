@@ -1,3 +1,4 @@
+import newrelic from "newrelic";
 import { App, ExpressReceiver, Installation as InstallationType, LogLevel, subtype } from "@slack/bolt";
 import { Sequelize } from "sequelize";
 import { InstallationFactory } from "./models/installation";
