@@ -1,4 +1,4 @@
-import { incrementMetric } from "newrelic";
+import newRelic from "newrelic";
 import { AllMiddlewareArgs, GenericMessageEvent, SlackEventMiddlewareArgs } from "@slack/bolt";
 import { WebAPICallResult } from "@slack/web-api";
 import { capitalize } from "../helpers/capitalize";
@@ -21,7 +21,7 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
 
   if (matches.length === 0) {
     // This message contains only ignored items.
-    incrementMetric("Actions/message/ignoredTerm");
+    newRelic.incrementMetric("Actions/message/ignoredTerm");
     return;
   }
 
@@ -36,7 +36,7 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
     const random = Math.floor(Math.random() * trigger.alternatives.length);
     const alternative = trigger.alternatives[random];
     const why = (trigger.why || '').replace(/:TERM:/gi, capitalize(text));
-    incrementMetric(`Actions/message/term/${text.toLowerCase()}`);
+    newRelic.incrementMetric(`Actions/message/term/${text.toLowerCase()}`);
     return `Instead of saying “${text.toLowerCase()},” how about *${alternative}*? You may be able to edit your message. ${why}`;
   });
 
