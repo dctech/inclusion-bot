@@ -1,4 +1,4 @@
-import newrelic from "newrelic";
+import { incrementMetric } from "newrelic";
 import { AllMiddlewareArgs, GenericMessageEvent, MessageChangedEvent, SlackEventMiddlewareArgs } from "@slack/bolt";
 import { config } from "../triggers/triggers";
 
@@ -43,7 +43,7 @@ export async function handleMessageEdited(event: SlackEventMiddlewareArgs<'messa
   if (!message.text.match(config.allTriggersRegExp)) {
     // The user has adjusted their language and it no longer matches our
     // triggers.
-    newrelic.incrementMetric("Actions/messageEdited/termRemoved");
+    incrementMetric("Actions/messageEdited/termRemoved");
     await event.client.reactions.remove({
       name: config.emoji,
       channel: messageChanged.channel,

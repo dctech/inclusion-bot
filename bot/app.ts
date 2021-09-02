@@ -1,4 +1,4 @@
-import newrelic from "newrelic";
+import { incrementMetric } from "newrelic";
 import { App, ExpressReceiver, Installation as InstallationType, LogLevel, subtype } from "@slack/bolt";
 import { Sequelize } from "sequelize";
 import { InstallationFactory } from "./models/installation";
@@ -38,7 +38,7 @@ const receiver = new ExpressReceiver({
   logLevel: LogLevel.INFO,
   installationStore: {
     storeInstallation: async (installation) => {
-      newrelic.incrementMetric("InstallationStore/storeInstallation");
+      incrementMetric("InstallationStore/storeInstallation");
 
       await Installation.create({
         id: installation.isEnterpriseInstall
@@ -49,7 +49,7 @@ const receiver = new ExpressReceiver({
       });
     },
     fetchInstallation: async (query) => {
-      newrelic.incrementMetric("InstallationStore/fetchInstallation");
+      incrementMetric("InstallationStore/fetchInstallation");
 
       const installation = await Installation.findByPk(
         query.isEnterpriseInstall ? query.enterpriseId : query.teamId
@@ -58,7 +58,7 @@ const receiver = new ExpressReceiver({
       return installation.installationObject as InstallationType;
     },
     deleteInstallation: async (query) => {
-      newrelic.incrementMetric("InstallationStore/deleteInstallation");
+      incrementMetric("InstallationStore/deleteInstallation");
 
       const installation = await Installation.findByPk(
         query.isEnterpriseInstall ? query.enterpriseId : query.teamId
