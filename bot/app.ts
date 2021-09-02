@@ -38,6 +38,8 @@ const receiver = new ExpressReceiver({
   logLevel: LogLevel.INFO,
   installationStore: {
     storeInstallation: async (installation) => {
+      newrelic.incrementMetric("InstallationStore/storeInstallation");
+
       await Installation.create({
         id: installation.isEnterpriseInstall
           ? installation.enterprise.id
@@ -47,6 +49,8 @@ const receiver = new ExpressReceiver({
       });
     },
     fetchInstallation: async (query) => {
+      newrelic.incrementMetric("InstallationStore/fetchInstallation");
+
       const installation = await Installation.findByPk(
         query.isEnterpriseInstall ? query.enterpriseId : query.teamId
       );
@@ -54,6 +58,8 @@ const receiver = new ExpressReceiver({
       return installation.installationObject as InstallationType;
     },
     deleteInstallation: async (query) => {
+      newrelic.incrementMetric("InstallationStore/deleteInstallation");
+
       const installation = await Installation.findByPk(
         query.isEnterpriseInstall ? query.enterpriseId : query.teamId
       );

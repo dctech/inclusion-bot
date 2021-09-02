@@ -16,6 +16,7 @@
   "dependencies": {
     "@slack/bolt": "^3.6.0",
     "@types/js-yaml": "^4.0.3",
+    "@types/newrelic": "^7.0.2",
     "@types/node": "^16.7.4",
     "js-yaml": "^4.1.0",
     "newrelic": "^8.2.0",
