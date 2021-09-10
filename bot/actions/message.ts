@@ -63,16 +63,10 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
             {
               type: "context",
               elements: [
-                { type: "mrkdwn", text: trigger.why }
+                { type: "mrkdwn", text: `${trigger.why} ${config.message}` }
               ]
             }
           ]).flat(),
-          {
-            type: "context",
-            elements: [
-              { type: "mrkdwn", text: config.message }
-            ],
-          },
           {
             type: "actions",
             elements: [
@@ -108,7 +102,5 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
   }
   catch (error) {
     event.logger.error(error);
-
-    event.logger.error(JSON.stringify(error, null, 2));
   }
 }
