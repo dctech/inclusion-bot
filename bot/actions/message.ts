@@ -37,7 +37,10 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
     const alternative = trigger.alternatives[random];
     const why = (trigger.why || '').replace(/:TERM:/gi, capitalize(text));
     newRelic.incrementMetric(`Actions/message/term/${text.toLowerCase()}`);
-    return `Instead of saying “${text.toLowerCase()},” how about *${alternative}*? You may be able to edit your message. ${why}`;
+    return {
+      suggestion: `Instead of saying “${text.toLowerCase()},” how about *${alternative}*?`,
+      why
+    };
   });
 
   actions.push(event.client.chat.postEphemeral({
@@ -48,15 +51,22 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
     username: "Inclusion Bot",
     unfurl_links: false,
     unfurl_media: false,
-    text: pretexts.join(" "),
     attachments: [
       {
         color: "#2eb886",
         blocks: [
-          ...pretexts.map((text, i) => ({
-            type: "section",
-            text: { type: "mrkdwn", text },
-          })),
+          ...pretexts.map((trigger, i) => [
+            {
+              type: "section",
+              text: { type: "mrkdwn", text: trigger.suggestion },
+            },
+            {
+              type: "context",
+              elements: [
+                { type: "mrkdwn", text: trigger.why }
+              ]
+            }
+          ]).flat(),
           {
             type: "context",
             elements: [
