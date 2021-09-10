@@ -98,5 +98,7 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
   }
   catch (error) {
     event.logger.error(error);
+
+    event.logger.error(JSON.stringify(error, null, 2));
   }
 }
