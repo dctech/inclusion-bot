@@ -51,6 +51,7 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
     username: "Inclusion Bot",
     unfurl_links: false,
     unfurl_media: false,
+    fallback: pretexts.map(t => `${t.suggestion} ${t.why} ${config.message}`).join(" "),
     attachments: [
       {
         color: "#2eb886",
