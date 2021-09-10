@@ -4,6 +4,9 @@ The Inclusion Bot is a Slack App which passively listens for [language with raci
 
 <a href="https://inclusion-bot.dunkman.me/install"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack@2x.png"></a>
 
+<img alt="Preview of the bot replying to a message containing the word guys." height="286" width="676" style="max-width: 100%;" src="https://user-images.githubusercontent.com/14930/132792239-72c9aa49-504e-4be7-87e0-c93764e49b24.png">
+
+
 Many thanks to [18F’s Charlie](https://github.com/18F/charlie), from which this bot was extracted and adapted.
 
 ## Development
