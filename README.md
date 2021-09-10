@@ -1,6 +1,6 @@
 # Inclusion Bot
 
-The Inclusion Bot is a Slack App which passively listens for language with racist, ableist, sexist, or other exclusionary histories. When it hears such words or phrases, it quietly lets the speaker know and offers some suggestions. Inclusive culture is built one interaction at a time, and inclusive language is the foundation — this bot helps us practice our inclusive values in Slack.
+The Inclusion Bot is a Slack App which passively listens for [language with racist, ableist, sexist, or other exclusionary histories](./bot/triggers/triggers.yml). When it hears such words or phrases, it quietly lets the speaker know and offers some suggestions. Inclusive culture is built one interaction at a time, and inclusive language is the foundation — this bot helps us practice our inclusive values in Slack.
 
 <a href="https://inclusion-bot.dunkman.me/install"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack@2x.png"></a>
 
