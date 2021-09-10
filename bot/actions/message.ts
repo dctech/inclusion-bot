@@ -48,6 +48,7 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
     username: "Inclusion Bot",
     unfurl_links: false,
     unfurl_media: false,
+    text: pretexts.join(" "),
     attachments: [
       {
         color: "#2eb886",
@@ -61,17 +62,6 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
             elements: [
               { type: "mrkdwn", text: config.message }
             ],
-            accessory: {
-              type: "overflow",
-              options: config.links.map((link) => ({
-                text: {
-                  type: "plain_text",
-                  text: link.text
-                },
-                url: link.url,
-              })),
-              action_id: OVERFLOW_MENU_CLICK_ACTION_ID,
-            }
           },
           {
             type: "actions",
@@ -84,11 +74,21 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
                 },
                 action_id: CLOSE_MESSAGE_ACTION_ID,
                 style: "primary"
+              },
+              {
+                type: "overflow",
+                options: config.links.map((link) => ({
+                  text: {
+                    type: "plain_text",
+                    text: link.text
+                  },
+                  url: link.url,
+                })),
+                action_id: OVERFLOW_MENU_CLICK_ACTION_ID,
               }
             ]
           },
         ],
-        fallback: text,
       },
     ],
   }));
