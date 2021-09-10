@@ -1,12 +1,11 @@
-import newRelic from "newrelic";
-import { App, ExpressReceiver, Installation as InstallationType, LogLevel, subtype } from "@slack/bolt";
+import { App, ExpressReceiver, LogLevel, subtype } from "@slack/bolt";
 import { Sequelize } from "sequelize";
-import { InstallationFactory } from "./models/installation";
 import { CLOSE_MESSAGE_ACTION_ID, handleMessageClose } from "./actions/closeMessage";
 import { handleMenuClick, OVERFLOW_MENU_CLICK_ACTION_ID } from "./actions/menuClick";
 import { handleMessage } from "./actions/message";
 import { handleMessageEdited } from "./actions/messageEdited";
 import { manifest } from "./manifest/manifest";
+import { createInstallationStore } from "./models/installationStore";
 import { config } from "./triggers/triggers";
 
 const {
@@ -27,8 +26,6 @@ const sequelize = new Sequelize(DATABASE_URL, {
     : {},
 });
 
-const Installation = InstallationFactory(sequelize);
-
 const receiver = new ExpressReceiver({
   signingSecret: SLACK_SIGNING_SECRET,
   clientId: SLACK_CLIENT_ID,
@@ -36,37 +33,7 @@ const receiver = new ExpressReceiver({
   stateSecret: APP_STATE_SECRET,
   scopes: manifest.oauth_config.scopes.bot,
   logLevel: LogLevel.INFO,
-  installationStore: {
-    storeInstallation: async (installation) => {
-      newRelic.incrementMetric("InstallationStore/storeInstallation");
-
-      await Installation.create({
-        id: installation.isEnterpriseInstall
-          ? installation.enterprise.id
-          : installation.team.id,
-        isEnterpriseInstallation: installation.isEnterpriseInstall,
-        installationObject: installation
-      });
-    },
-    fetchInstallation: async (query) => {
-      newRelic.incrementMetric("InstallationStore/fetchInstallation");
-
-      const installation = await Installation.findByPk(
-        query.isEnterpriseInstall ? query.enterpriseId : query.teamId
-      );
-
-      return installation.installationObject as InstallationType;
-    },
-    deleteInstallation: async (query) => {
-      newRelic.incrementMetric("InstallationStore/deleteInstallation");
-
-      const installation = await Installation.findByPk(
-        query.isEnterpriseInstall ? query.enterpriseId : query.teamId
-      );
-
-      await installation.destroy();
-    }
-  }
+  installationStore: createInstallationStore(sequelize),
 });
 
 // Trust and use Heroku’s X-Forwarded-* headers.
