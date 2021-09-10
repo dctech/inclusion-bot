@@ -15,6 +15,7 @@ services:
       APP_STATE_SECRET: $APP_STATE_SECRET
       DATABASE_URL: postgres://postgres:${LOCAL_POSTGRES_PASSWORD}@db:5432/postgres
       NEW_RELIC_ENABLED: "false"
+      NEW_RELIC_NO_CONFIG_FILE: "true"
 
   adminer:
     image: adminer:4.8.1-standalone
