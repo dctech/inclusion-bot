@@ -50,19 +50,17 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
     unfurl_media: false,
     attachments: [
       {
-        color: "#ffbe2e",
-        blocks: pretexts.map((text, i) => ({
-          type: "section",
-          text: { type: "mrkdwn", text },
-        })),
-        fallback: text,
-      },
-      {
         color: "#2eb886",
         blocks: [
-          {
+          ...pretexts.map((text, i) => ({
             type: "section",
-            text: { type: "mrkdwn", text: config.message },
+            text: { type: "mrkdwn", text },
+          })),
+          {
+            type: "context",
+            elements: [
+              { type: "mrkdwn", text: config.message }
+            ],
             accessory: {
               type: "overflow",
               options: config.links.map((link) => ({
@@ -88,9 +86,9 @@ export async function handleMessage(event: SlackEventMiddlewareArgs<'message'> &
                 style: "primary"
               }
             ]
-          }
+          },
         ],
-        fallback: config.message,
+        fallback: text,
       },
     ],
   }));
